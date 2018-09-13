@@ -45,12 +45,14 @@ const pool = new Pool({
 
 const service = Services(pool);
 const route = Routes(service);
+
 function errorHandler(err, req, res, next) {
 res.status(500);
 res.render('error', { error: err });
 }
 
-  app.get('/', route.home)
+app.get('/waiters/:username', route.home)
+app.post('/waiters/:username', route.checkingDays)
 
 
   app.use(errorHandler);

@@ -1,13 +1,68 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2 class="text-center text-secondary mb-5">Waiter app</h2>
+            <h2 class="text-center text-secondary mb-5">Welcome back {{user}}</h2>
         </div>
     </div>
     <div class="w-100"></div>
     <div class="row">
         <div class="col">
+            <div class="row">
+                <div class="col table-responsive">
+                    <form method="POST">
+                        <table class="table table-hover table-warning mb-5">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Monday</th>
+                                    <th scope="col">Tuesday</th>
+                                    <th scope="col">Wednesday</th>
+                                    <th scope="col">Thursday</th>
+                                    <th scope="col">Friday</th>
+                                    <th scope="col">Saturday</th>
+                                    <th scope="col">Sunday</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    {{#each checkBoxes}}
+                                    <th>
+                                        <input type="checkbox" name="weekdays" value="{{day}}">
+                                    </th>
+                                    {{/each}}
+                                </tr>
+                        </table>
+                        <input type="submit" class="btn btn-dark" value="Submit working days">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="row">
+            <div class="col">
+                <h4>You decided to work on these days</h4>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Days Shifts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each selectedDays}}
+                        <tr>
+                            <td>{{day}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
             
         </div>
+        <div class="w-100"></div>
+        <div class="row">
+            <div class="col">
+                <h4 class="text-center bg-warning">{{messages.noShifts}}</h4>
+                <h4 class="text-center bg-secondary">{{messages.Less}}</h4>
+                <h4 class="text-center bg-success">{{messages.success}}</h4>
+            </div>
+        </div>
     </div>
-</div>
