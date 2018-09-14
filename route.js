@@ -56,8 +56,21 @@ module.exports = function (service) {
             res.send(err.stack)
         }
     }
+    async function show (req, res) {
+        try{
+            
+            for(let i = 0 ; i < 7 ; i++) {
+                
+            }
+            res.render('days')
+        }
+        catch(err) {
+            res.send(err.stack);
+        }
+    }
     return {
         home,
-        checkingDays
+        checkingDays,
+        show
     }
 }

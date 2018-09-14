@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center text-secondary mb-5">Admin page</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Monday</th>
+                        <th scope="col">Tuesday</th>
+                        <th scope="col">Wednesday</th>
+                        <th scope="col">Thursday</th>
+                        <th scope="col">Friday</th>
+                        <th scope="col">Saturday</th>
+                        <th scope="col">Sunday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {{#each checkBoxes}}
+                        <td>
+                            <h4 class="{{colour}}"></h4>
+                        </td>
+                        {{/each}}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

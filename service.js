@@ -61,6 +61,13 @@ module.exports = function (pool) {
         let result = await pool.query('select first_name,day from waiters join shifts on waiters.id = shifts.waiter_id join weekdays on shifts.weekday_id = weekdays.id where waiter_id=$1', [userId]);
         return result.rows;
     }
+    async function selectDaysInJoinedTables (day) {
+        let result = await pool.query('select first_name,day from waiters join shifts on waiters.id = shifts.waiter_id join weekdays on shifts.weekday_id = weekdays.id where day=$1',[day]);
+        return result.rows;
+    }
+    async function getDayById(dayId) {
+        
+    }
     return {
         allWaiters,
         getDays,
@@ -72,6 +79,7 @@ module.exports = function (pool) {
         countAllShifts,
         addShifts,
         deleteUserDays,
-        selectShiftsUser
+        selectShiftsUser,
+        selectDaysInJoinedTables
     }
 }

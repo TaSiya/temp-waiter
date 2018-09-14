@@ -1,0 +1,8 @@
+
+body{
+    background-color:#ddd;
+}
+
+.full { background-color: green}
+.short { background-color: orange}
+.empty { background-color: crimson}
