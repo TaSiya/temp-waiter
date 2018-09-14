@@ -51,9 +51,9 @@ res.status(500);
 res.render('error', { error: err });
 }
 
-app.get('/waiters/:username', route.home)
-app.post('/waiters/:username', route.checkingDays)
-
+app.get('/waiters/:username', route.home);
+app.post('/waiters/:username', route.checkingDays);
+// app.get('/days', routes.show);
 
   app.use(errorHandler);
 

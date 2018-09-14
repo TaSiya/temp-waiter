@@ -2,12 +2,10 @@ module.exports = function (service) {
     async function home (req, res) {
         try{
             let user = req.params.username;
-
             let userData = await service.selectWaiter(user);
-            let checkBoxes = await service.getDays();
-            let selectedDays = await service.selectShiftsUser(userData[0].id);
             if(userData.length != 0){
-                
+                let selectedDays = await service.selectShiftsUser(userData[0].id);
+                let checkBoxes = await service.getDays(selectedDays,userData[0].id);
                 res.render('index',{user, checkBoxes, selectedDays})
             }
             else {
@@ -22,9 +20,9 @@ module.exports = function (service) {
         try{    
             let user = req.params.username;
             let shifts = req.body.weekdays;
-            console.log(shifts);
+            // console.log(shifts);
             let userData = await service.selectWaiter(user);
-            let checkBoxes = await service.getDays();
+            
             if(userData.length != 0){
                 if(shifts === undefined){
                     req.flash('noShifts', 'Please select shifts before submitting');
@@ -36,8 +34,18 @@ module.exports = function (service) {
                 }
                 else{
                     req.flash('success', 'Successfully added the shifts');
-                    await service.addShifts(user,shifts);
-                    res.render('index',{user, checkBoxes});
+                    let lastShifts = await service.selectShiftsUser(userData[0].id);
+                    if(lastShifts.length != 0){
+                        await service.deleteUserDays(userData[0].id);
+                        await service.addShifts(user,shifts);
+                    }
+                    else{
+                        await service.addShifts(user,shifts);
+                    }
+                    let selectedDays = await service.selectShiftsUser(userData[0].id);
+                    let checkBoxes = await service.getDays(selectedDays,userData[0].id);
+                    console.log(checkBoxes);
+                    res.render('index',{user, checkBoxes,selectedDays});
                 }
                 
             }
