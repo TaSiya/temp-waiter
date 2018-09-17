@@ -49,15 +49,18 @@ module.exports = function (pool) {
             }
         }
     }
-    async function updateStatus(colour,day) {
+    async function updateStatus (colour,day) {
         await pool.query('update weekdays set status=$1 where day=$2', [colour, day]);
+    }
+    async function updateBox (userId) {
+        await pool.query('update shifts set box=$1 where waiter_id=$2',['checked', userId])
     }
     async function selectDay(day) {
         let result = await pool.query('select * from weekdays where day =$1', [day]);
         return result.rows;
     }
-    async function insertShifts (userId, dayId) {
-        await pool.query('insert into shifts (waiter_id, weekday_id) values ($1,$2)', [userId,dayId]);
+    async function insertShifts (userId, dayId, box) {
+        await pool.query('insert into shifts (waiter_id, weekday_id, box) values ($1,$2,$3)', [userId,dayId,box]);
     }
     async function allShifts () {
         let result = await pool.query('select * from shifts');
@@ -77,7 +80,9 @@ module.exports = function (pool) {
         for (var i = 0 ; i < listData.length ; i ++) {
             let selected = await selectDay(listData[i]);
             let dayId = selected[0].id;
-            await insertShifts(employeeId,dayId);
+            if(listData[i] == selected[0].day){
+                await insertShifts(employeeId,dayId,'checked');
+            }
         }
     }
     async function deleteUserDays(userId){
@@ -110,6 +115,7 @@ module.exports = function (pool) {
         selectDaysInJoinedTables,
         countingShifts,
         getDayById,
-        filterColors
+        filterColors,
+        updateBox
     }
 }

@@ -24,27 +24,11 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    {{#each weekdays}}
                                     <td>
-                                        <input type="checkbox" name="weekdays" value="Monday" {{status}}>
+                                        <input type="checkbox" name="weekdays" value="{{day}}" {{box}}>
                                     </td>
-                                    <td>
-                                        <input type="checkbox" name="weekdays" value="Tuesday" {{status}}>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="weekdays" value="Wednesday" {{status}}>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="weekdays" value="Thursday" {{status}}>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="weekdays" value="Friday" {{status}}>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="weekdays" value="Saturday" {{status}}>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="weekdays" value="Sunday" {{status}}>
-                                    </td>
+                                    {{/each}}
                                 </tr>
                         </table>
                         <input type="submit" class="btn btn-dark" value="Submit working days">
