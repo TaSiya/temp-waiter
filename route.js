@@ -5,8 +5,7 @@ module.exports = function (service) {
             let userData = await service.selectWaiter(user);
             if(userData.length != 0){
                 let selectedDays = await service.selectShiftsUser(userData[0].id);
-                let checkBoxes = await service.getDays(selectedDays,userData[0].id);
-                res.render('index',{user, checkBoxes, selectedDays})
+                res.render('index',{user, selectedDays})
             }
             else {
                 res.render('notEmployed', {user});
@@ -20,33 +19,37 @@ module.exports = function (service) {
         try{    
             let user = req.params.username;
             let shifts = req.body.weekdays;
-            // console.log(shifts);
+            console.log(shifts);
             let userData = await service.selectWaiter(user);
-            
+            let check = Array.isArray(shifts);
             if(userData.length != 0){
-                if(shifts === undefined){
-                    req.flash('noShifts', 'Please select shifts before submitting');
-                    res.render('index',{user, checkBoxes});
-                }
-                else if (shifts.length < 3){
-                    req.flash('Less', 'You must have select 3 working days')
-                    res.render('index',{user, checkBoxes});
+                if (!check){
+                    req.flash('noShifts', 'Not enough shifts');
+                    let selectedDays = await service.selectShiftsUser(userData[0].id);
+                    res.render('index',{user,selectedDays});
                 }
                 else{
-                    req.flash('success', 'Successfully added the shifts');
-                    let lastShifts = await service.selectShiftsUser(userData[0].id);
-                    if(lastShifts.length != 0){
-                        await service.deleteUserDays(userData[0].id);
-                        await service.addShifts(user,shifts);
+                    if (shifts.length < 3){
+                        req.flash('Less', 'You must have select 3 working days')
+                        let selectedDays = await service.selectShiftsUser(userData[0].id);
+                        res.render('index',{user,selectedDays});
                     }
                     else{
-                        await service.addShifts(user,shifts);
+                        req.flash('success', 'Successfully added the shifts');
+                        let lastShifts = await service.selectShiftsUser(userData[0].id);
+                        if(lastShifts.length != 0){
+                            await service.deleteUserDays(userData[0].id);
+                            await service.addShifts(user,shifts);
+                        }
+                        else{
+                            await service.addShifts(user,shifts);
+                        }
+                        let selectedDays = await service.selectShiftsUser(userData[0].id);
+                        // console.log(checkBoxes);
+                        res.render('index',{user,selectedDays});
                     }
-                    let selectedDays = await service.selectShiftsUser(userData[0].id);
-                    let checkBoxes = await service.getDays(selectedDays,userData[0].id);
-                    console.log(checkBoxes);
-                    res.render('index',{user, checkBoxes,selectedDays});
                 }
+                
                 
             }
             else {
@@ -59,10 +62,9 @@ module.exports = function (service) {
     async function show (req, res) {
         try{
             
-            for(let i = 0 ; i < 7 ; i++) {
-                
-            }
-            res.render('days')
+            await service.filterColors();
+            let colouring = await service.getDays();
+            res.render('days',{colouring})
         }
         catch(err) {
             res.send(err.stack);
