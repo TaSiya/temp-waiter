@@ -1,8 +1,23 @@
 
-body{
+/* body{
     background-color:#ddd;
-}
+} */
 
-.full { background-color: green}
-.short { background-color: orange}
-.empty { background-color: crimson}
+.full { 
+    width: 80px;
+    height: 80px;
+    background-color: green}
+.short { 
+    width: 80px;
+    height: 80px;
+    background-color: orange}
+.empty { 
+    width: 80px;
+    height: 80px;
+    background-color: crimson}
+
+.over {
+    width: 80px;
+    height: 80px;
+    background-color: #333}
+}
