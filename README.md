@@ -29,7 +29,7 @@ Waiters can use this link => https://sister-waiter.herokuapp.com/waiters/Siyanda
 -
     
 
-    *************      * * * * *       * * * * * * *     * * * * * *    *                   *
+    *************      * * * * *      * * * * * * *      * * * * * *    *                   *
     *               *             *   *              *   *                *               *
     *               *             *   *              *   *                  *           *
     *               *             *   *              *   *                    *       *
@@ -39,4 +39,4 @@ Waiters can use this link => https://sister-waiter.herokuapp.com/waiters/Siyanda
     *               *             *   *              *   *                    *       *
     *               *             *   *              *   *                  *            *
     *               *             *   *              *   *                *               *
-    *************      * * * * *       * * * * * * *     * * * * * *    *                   *
+    *************      * * * * *      * * * * * * *      * * * * * *    *                   *
