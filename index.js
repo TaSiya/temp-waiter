@@ -36,7 +36,7 @@ if (process.env.DATABASE_URL && !local){
     useSSL = true;
 }
 // which db connection to use
-const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:5432/waiter_database';
+const connectionString = process.env.DATABASE_URL || 'postgresql://tasiya:pg123@localhost:5432/waiter_database';
 
 const pool = new Pool({
     connectionString,
