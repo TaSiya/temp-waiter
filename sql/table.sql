@@ -8,7 +8,8 @@ create table waiters(
 
 create table weekdays(
     id serial primary key not null,
-    day text not null
+    day text not null,
+    colour text
 
 );
 
