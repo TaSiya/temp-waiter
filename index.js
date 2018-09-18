@@ -54,6 +54,8 @@ res.render('error', { error: err });
 app.get('/waiters/:username', route.home);
 app.post('/waiters/:username', route.checkingDays);
 app.get('/days', route.show);
+app.post('/newUser', route.addWaiter);
+app.get('/reset', route.removeShifts);
 
   app.use(errorHandler);
 

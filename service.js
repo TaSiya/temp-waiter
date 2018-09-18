@@ -4,6 +4,9 @@ module.exports = function (pool) {
         let result = await pool.query('select * from waiters');
         return result.rows;
     }
+    async function insertWaiter(name, pass) {
+        await pool.query('insert into waiters (first_name,passcode) values ($1, $2)',[name, pass]);
+    }
     async function countWaiters () {
         let result = await pool.query('select count(*) from waiters');
         return parseInt(result.rows[0].count);
@@ -100,6 +103,9 @@ module.exports = function (pool) {
         let result = await pool.query('select day from weekdays where id = $1', [dayId]);
         return result.rows[0].day;
     }
+    async function resetShifts() {
+        await pool.query('delete from shifts');
+    }
     return {
         allWaiters,
         getDays,
@@ -116,6 +122,8 @@ module.exports = function (pool) {
         countingShifts,
         getDayById,
         filterColors,
-        updateBox
+        updateBox,
+        insertWaiter,
+        resetShifts
     }
 }
