@@ -66,6 +66,12 @@ describe('Waiter App tests', function () {
                 let shiftList = await shifts.countAllShifts();
                 assert.strictEqual(shiftList, 0);
             });
+            it('adding 1 shifts for employee', async function () {
+                let shifts = Service(pool);
+                await shifts.addShifts('Siyanda', ['Monday']);
+                let shiftList = await shifts.countAllShifts();
+                assert.strictEqual(shiftList, 1);
+            });
             it('adding 3 shifts for employee', async function () {
                 let shifts = Service(pool);
                 await shifts.addShifts('Siyanda', ['Monday', 'Tuesday', 'Friday']);
@@ -89,11 +95,11 @@ describe('Waiter App tests', function () {
                 let shifts = Service(pool);
                 await shifts.addShifts('Odwa', ['Monday', 'Tuesday', 'Friday', 'Sunday']);
                 let shiftList = await shifts.countAllShifts();
-                assert.strictEqual(shiftList, 3);
+                assert.strictEqual(shiftList, 4);
             });
         })
     });
-
+    
     after(function() {
         pool.end();
     })
