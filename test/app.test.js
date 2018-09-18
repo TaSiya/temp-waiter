@@ -44,9 +44,9 @@ describe('Waiter App tests', function () {
             });
         });
         describe('check if the employee exists', function () {
-            it('check if Andre is a employee', async function () {
+            it('check if Aphiwe is a employee', async function () {
                 let waiters = Service(pool);
-                let userData = await waiters.selectWaiter('Andre');
+                let userData = await waiters.selectWaiter('Aphiwe');
                 assert.strictEqual(userData[0], undefined);
             });
             it('check if Odwa is a employee', async function () {
@@ -55,6 +55,7 @@ describe('Waiter App tests', function () {
                 assert.strictEqual(userData[0].first_name, 'Odwa');
             });
         });
+        
     });
     describe('shifts table tests', function () {
         describe('adding shifts to the table', function () {
@@ -97,9 +98,83 @@ describe('Waiter App tests', function () {
                 let shiftList = await shifts.countAllShifts();
                 assert.strictEqual(shiftList, 4);
             });
-        })
+        });
+        describe('Counting shifts for a day', function () {
+            beforeEach( async function () {
+                await pool.query('delete from shifts');
+            });
+            it('should return an array with how many times day checked', async function () {
+                let shifts = Service(pool);
+                await shifts.addShifts('Siyanda', ['Monday', 'Tuesday', 'Friday']);
+                await shifts.addShifts('Siyamanga', ['Thursday', 'Saturday', 'Monday']);
+                await shifts.addShifts('Odwa', ['Monday', 'Tuesday', 'Friday', 'Sunday']);
+                let currentShifts = await shifts.allShifts();
+                let result = await shifts.countingShifts(currentShifts);
+                assert.deepStrictEqual(result, [3, 2,0,1,2,1,1]);
+            });
+            beforeEach( async function () {
+                await pool.query('delete from shifts');
+            });
+            it('should return an array with how many times day checked', async function () {
+                let shifts = Service(pool);
+                await shifts.addShifts('Siyanda', ['Monday', 'Tuesday', 'Friday']);
+                let currentShifts = await shifts.allShifts();
+                let result = await shifts.countingShifts(currentShifts);
+                assert.deepStrictEqual(result, [1, 1, 0, 0, 1, 0, 0]);
+            });
+        });
+        describe('checking if empty or short or full or over', function () {
+            beforeEach( async function () {
+                await pool.query('delete from shifts');
+            });
+            it('should return full on monday', async function () {
+                let shifts = Service(pool);
+                await shifts.addShifts('Siyanda', ['Monday', 'Tuesday', 'Friday']);
+                await shifts.addShifts('Siyamanga', ['Thursday', 'Saturday', 'Monday']);
+                await shifts.addShifts('Odwa', ['Monday', 'Tuesday', 'Friday', 'Sunday']);
+                await shifts.filterColors();
+                let result = await shifts.getDays();
+                assert.deepStrictEqual(result[0].status, 'full');
+            });
+            beforeEach( async function () {
+                await pool.query('delete from shifts');
+            });
+            it('should return short on Sunday', async function () {
+                let shifts = Service(pool);
+                await shifts.addShifts('Siyanda', ['Monday', 'Tuesday', 'Friday']);
+                await shifts.addShifts('Siyamanga', ['Thursday', 'Saturday', 'Monday']);
+                await shifts.addShifts('Odwa', ['Monday', 'Tuesday', 'Friday', 'Sunday']);
+                await shifts.filterColors();
+                let result = await shifts.getDays();
+                assert.deepStrictEqual(result[6].status, 'short');
+            });
+            beforeEach( async function () {
+                await pool.query('delete from shifts');
+            });
+            it('should return empty on Wednesday', async function () {
+                let shifts = Service(pool);
+                await shifts.addShifts('Siyanda', ['Monday', 'Tuesday', 'Friday']);
+                await shifts.addShifts('Siyamanga', ['Thursday', 'Saturday', 'Monday']);
+                await shifts.addShifts('Odwa', ['Monday', 'Tuesday', 'Friday', 'Sunday']);
+                await shifts.filterColors();
+                let result = await shifts.getDays();
+                assert.deepStrictEqual(result[2].status, 'empty');
+            });
+            
+        });
     });
-    
+    describe('Keeping the days that are checked', function () {
+        it('keep the three days which are Monday, Wednesday, Friday', async function () {
+            let weekdays = Service(pool);
+            await weekdays.addShifts('Siyanda', ['Monday', 'Wednesday', 'Friday']);
+            let userData = await weekdays.selectWaiter('Siyanda');
+            let result = await weekdays.keepCheck(userData);
+            // ***** either one of the following assert should expect checked ****
+            // assert.strictEqual(result[0].box, 'checked');
+            // assert.strictEqual(result[2].box, 'checked');
+            assert.strictEqual(result[4].box, 'checked');
+        });
+    });
     after(function() {
         pool.end();
     })
