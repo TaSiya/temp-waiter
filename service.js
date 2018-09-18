@@ -12,25 +12,55 @@ module.exports = function (pool) {
         let result = await pool.query('select * from waiters where first_name = $1', [name]);
         return result.rows;
     }
-    async function getDays (selectedDays, userId) {
-        for(let i = 0 ; i < selectedDays.length ; i ++) {
-            let dayData = await selectDay(selectedDays[i]);
-            if(dayData.length != 0){
-                await updateStatus(dayData[0].day);
-            }
-        }
+    async function getDays () {
         let result = await pool.query('select * from weekdays');
         return result.rows;
     }
-    async function updateStatus(day) {
-        await pool.query('update weekdays set status=$1 where day=$2', ['checked', day]);
+    async function countingShifts (shifts) {
+        let temp = [];
+        for ( let i = 0 ; i < 7 ; i ++) {
+            var counter = 0 ;
+            for (let j = 0 ; j < shifts.length ; j++) {
+                if ( i+1 === shifts[j].weekday_id) {
+                    counter++;
+                }
+            }
+            temp.push(counter);
+        }
+        return temp;
+    }
+    async function filterColors () {
+        let shifts = await allShifts();
+        let result = await countingShifts(shifts);
+        console.log(result);
+        for (var i = 0 ; i < result.length ; i++) {
+            var day = await getDayById(i +1);
+            if(result[i] == 0){
+                await updateStatus('empty', day);
+            }
+            else if (result[i] < 3) {
+                await updateStatus('short', day);
+            }
+            else if (result[i] == 3) {
+                await updateStatus('full', day);
+            }
+            else {
+                await updateStatus('over', day);
+            }
+        }
+    }
+    async function updateStatus (colour,day) {
+        await pool.query('update weekdays set status=$1 where day=$2', [colour, day]);
+    }
+    async function updateBox (userId) {
+        await pool.query('update shifts set box=$1 where waiter_id=$2',['checked', userId])
     }
     async function selectDay(day) {
         let result = await pool.query('select * from weekdays where day =$1', [day]);
         return result.rows;
     }
-    async function insertShifts (userId, dayId) {
-        await pool.query('insert into shifts (waiter_id, weekday_id) values ($1,$2)', [userId,dayId]);
+    async function insertShifts (userId, dayId, box) {
+        await pool.query('insert into shifts (waiter_id, weekday_id, box) values ($1,$2,$3)', [userId,dayId,box]);
     }
     async function allShifts () {
         let result = await pool.query('select * from shifts');
@@ -50,12 +80,13 @@ module.exports = function (pool) {
         for (var i = 0 ; i < listData.length ; i ++) {
             let selected = await selectDay(listData[i]);
             let dayId = selected[0].id;
-            await insertShifts(employeeId,dayId);
+            if(listData[i] == selected[0].day){
+                await insertShifts(employeeId,dayId,'checked');
+            }
         }
     }
     async function deleteUserDays(userId){
         await pool.query('delete from shifts where waiter_id = $1',[userId]);
-        await pool.query('update weekdays set status=$1',['unchecked'])
     }
     async function selectShiftsUser (userId) {
         let result = await pool.query('select first_name,day from waiters join shifts on waiters.id = shifts.waiter_id join weekdays on shifts.weekday_id = weekdays.id where waiter_id=$1', [userId]);
@@ -66,7 +97,8 @@ module.exports = function (pool) {
         return result.rows;
     }
     async function getDayById(dayId) {
-        
+        let result = await pool.query('select day from weekdays where id = $1', [dayId]);
+        return result.rows[0].day;
     }
     return {
         allWaiters,
@@ -80,6 +112,10 @@ module.exports = function (pool) {
         addShifts,
         deleteUserDays,
         selectShiftsUser,
-        selectDaysInJoinedTables
+        selectDaysInJoinedTables,
+        countingShifts,
+        getDayById,
+        filterColors,
+        updateBox
     }
 }

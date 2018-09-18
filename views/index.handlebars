@@ -24,10 +24,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    {{#each checkBoxes}}
-                                    <th>
-                                        <input type="checkbox" name="weekdays" value="{{day}}" {{status}}>
-                                    </th>
+                                    {{#each weekdays}}
+                                    <td>
+                                        <input type="checkbox" name="weekdays" value="{{day}}" {{box}}>
+                                    </td>
                                     {{/each}}
                                 </tr>
                         </table>
@@ -59,11 +59,11 @@
         </div>
         <div class="w-100"></div>
         <div class="row">
-            {{!-- <div class="col">
+            <div class="col">
                 <h4 class="text-center bg-warning rmMessage">{{messages.noShifts}}</h4>
-                <h4 class="text-center bg-secondary">{{messages.Less}}</h4>
+                <h4 class="text-center bg-warning">{{messages.Less}}</h4>
                 <h4 class="text-center bg-success">{{messages.success}}</h4>
-            </div> --}}
+            </div>
         </div>
     </div>
 
