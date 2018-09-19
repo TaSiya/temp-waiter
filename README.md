@@ -1,8 +1,8 @@
-#Waiter web application
+# Waiter web application
 - travis badge =>
 [![Build Status](https://travis-ci.org/TaSiya/temp-waiter.svg?branch=master)](https://travis-ci.org/TaSiya/temp-waiter)
 
-#NOTE
+# NOTE
 - Only employees can use the app
 - If you are not an employee better find a way to become one
 - There are currently 7 employees at the moment
