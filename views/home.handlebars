@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="mt-5 mb-4">WELCOME TO THE WAITER APP</h1>
+            <div class="w-100"></div>
+            <div class="row">
+                <div class="col-12 mt-5">
+                    <h4>To add an employee use the following form:</h4>
+                </div>
+                <div class="col">
+                    <form action="/newUser" method="POST">
+                        <div class="form-group">
+                            <label for="waiterName">Waiter name</label>
+                            <input type="text" class="form-control" name="waiter" id="waiterName" aria-describedby="emailHelp"
+                                placeholder="Enter new waiter name">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                                else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" name="passcode" class="form-control" id="exampleInputPassword1"
+                                placeholder="enter 4 digit code" pattern="[0-9]{4}" required>
+                        </div>
+                        <button type="submit" class="btn btn-dark">Add new waiter</button>
+                    </form>
+                </div>
+            </div>
+            <div class="w-100"></div>
+            <div class="row">
+                <div class="col text-center">
+                    <h4 class="text-success">{{messages.added}}</h4>
+                    <h4 class="text-warning">{{messages.info}}</h4>
+                    <h4 class="text-danger">{{messages.delete}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
