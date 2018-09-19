@@ -1,47 +1,31 @@
 <div class="container">
-    <h2 class="text-center text-secondary mb-5">Admin page</h2>
-    <div class="row ">
+    <h2 class="text-center text-secondary mt-4 mb-5">Admin page</h2>
+    <div class="row border border-dark mb-5">
         <div class="col text-center">
             <h4>Legend </h4>
         </div>
 
         <div class="w-100"></div>
-        <hr/>
-            <div class="col-md-3 col-sm-6 mb-5">
-                <div class="card" style="width: 8rem;">
-                    <img class="card-img-top" src="./img/red.jpeg" alt="empty waiters">
-                    <div class="card-body">
-                        <h5 class="card-title">No waiters</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="card" style="width: 9rem;">
-                    <img class="card-img-top" src="./img/orange.jpg" alt="1 or 2 ">
-                    <div class="card-body">
-                        <h5 class="card-title">less than 3</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="card" style="width: 8rem;">
-                    <img class="card-img-top" src="./img/green.jpg" alt="empty waiters">
-                    <div class="card-body">
-                        <h5 class="card-title">Day full</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="card" style="width: 8rem;">
-                    <img class="card-img-top" src="./img/grey.jpg" alt="empty waiters">
-                    <div class="card-body">
-                        <h5 class="card-title">More than 3</h5>
-                    </div>
-                </div>
-            </div>
+        <hr />
+        <div class="col-md-3 col-sm-6 mb-5">
+            <div class="foo crimson mr-3"></div>
+            <p class="pt-2">No waiters</p>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="foo orange mr-3"></div>
+            <p class="pt-2">Less than 3</p>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="foo green mr-3"></div>
+            <p class="pt-2">Full day</p>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="foo black mr-3"></div>
+            <p class="pt-2">Over limit</p>
+        </div>
 
-    
-    
+
+
     </div>
 
 
@@ -66,6 +50,7 @@
                         <td>
                             <div class="{{status}}"></div>
                         </td>
+
                         {{/each}}
                     </tr>
                 </tbody>
@@ -74,37 +59,81 @@
     </div>
     <div class="w-100"></div>
     <div class="row">
-        <div class="col-12 mt-5">
-            <h4>To add an employee use the following form:</h4>
-        </div>
         <div class="col">
-            <form action="/newUser" method="POST">
-                <div class="form-group">
-                    <label for="waiterName">Waiter name</label>
-                    <input type="text" class="form-control" name="waiter" id="waiterName" aria-describedby="emailHelp"
-                        placeholder="Enter new waiter name">
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <div class="w-100"></div>
+            <div class="row">
+                <div class="col-1 mr-5">
+                    <table class="table mt-3">
+                        {{#each monday}}
+                        <tr>
+                            <td>{{first_name}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" name="passcode" class="form-control" id="exampleInputPassword1" placeholder="enter 4 digit code"
-                        pattern="[0-9]{4}" required>
+                <div class="col-1 ml-4 mr-5">
+                    <table class="table mt-3">
+                        {{#each tuesday}}
+                        <tr>
+                            <td>{{first_name}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
                 </div>
-                <button type="submit" class="btn btn-dark">Add new waiter</button>
-            </form>
+                <div class="col-1 ml-3 mr-5">
+                    <table class="table mt-3">
+                        {{#each wednesday}}
+                        <tr>
+                            <td>{{first_name}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </div>
+                <div class="col-1 ml-4 mr-5">
+                    <table class="table mt-3">
+                        {{#each thursday}}
+                        <tr>
+                            <td>{{first_name}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </div>
+                <div class="col-1 ml-3 mr-5">
+                    <table class="table mt-3">
+                        {{#each friday}}
+                        <tr>
+                            <td>{{first_name}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </div>
+                <div class="col-1 ml-3 mr-5">
+                    <table class="table mt-3">
+                        {{#each saturday}}
+                        <tr>
+                            <td>{{first_name}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </div>
+                <div class="col-1 ml-2">
+                    <table class="table mt-3">
+                        {{#each sunday}}
+                        <tr>
+                            <td>{{first_name}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="w-100"></div>
-    <div class="row">
-        <div class="col text-center">
-            <h4 class="text-success">{{messages.added}}</h4>
-            <h4 class="text-warning">{{messages.info}}</h4>
-            <h4 class="text-danger">{{messages.delete}}</h4>
-        </div>
-    </div>
+    
     <div class="row">
         <div class="col text-right mt-5">
-            <a href="/reset" class="btn btn-danger">Remove all shifts</a>
+            <a href="/reset" class="btn btn-danger mb-4">Remove all shifts</a>
         </div>
     </div>
 </div>

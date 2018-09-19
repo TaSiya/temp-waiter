@@ -1,4 +1,11 @@
 module.exports = function (service) {
+    async function register(req, res) {
+        try{
+            res.render('home')
+        } catch(err) {
+            res.send(err);
+        }
+    }
     async function home(req, res) {
         try {
             let user = req.params.username;
@@ -81,8 +88,22 @@ module.exports = function (service) {
 
             await service.filterColors();
             let colouring = await service.getDays();
+            let monday = await service.selectDaysInJoinedTables('Monday');
+            let tuesday = await service.selectDaysInJoinedTables('Tuesday');
+            let wednesday = await service.selectDaysInJoinedTables('Wednesday');
+            let thursday = await service.selectDaysInJoinedTables('Thursday');
+            let friday = await service.selectDaysInJoinedTables('Friday');
+            let saturday = await service.selectDaysInJoinedTables('Saturday');
+            let sunday = await service.selectDaysInJoinedTables('Sunday');
             res.render('days', {
-                colouring
+                colouring,
+                monday,
+                tuesday,
+                wednesday,
+                thursday,
+                friday,
+                saturday,
+                sunday
             })
         } catch (err) {
             res.send(err.stack);
@@ -93,7 +114,7 @@ module.exports = function (service) {
             let name = req.body.waiter;
             let code = req.body.passcode;
             if (name === '') {
-                req.flash('info', 'Please inter both name and password')
+                req.flash('info', 'Please enter both name and password')
             } else {
                 let userData = await service.selectWaiter(name);
                 if (userData.length != 0) {
@@ -104,7 +125,7 @@ module.exports = function (service) {
                 }
             }
 
-            res.redirect('days')
+            res.redirect('/')
         } catch (err) {
             res.send(err.stack);
         }
@@ -123,6 +144,7 @@ module.exports = function (service) {
         checkingDays,
         show,
         addWaiter,
-        removeShifts
+        removeShifts,
+        register
     }
 }

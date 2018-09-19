@@ -97,6 +97,10 @@ module.exports = function (pool) {
         let result = await pool.query('select first_name,day from waiters join shifts on waiters.id = shifts.waiter_id join weekdays on shifts.weekday_id = weekdays.id where day=$1', [day]);
         return result.rows;
     }
+    async function getAllShifts () {
+        let result = await pool.query('select first_name,day from waiters join shifts on waiters.id = shifts.waiter_id join weekdays on shifts.weekday_id = weekdays.id');
+        return result.rows;
+    }
     async function getDayById(dayId) {
         let result = await pool.query('select day from weekdays where id = $1', [dayId]);
         return result.rows[0].day;
@@ -135,6 +139,7 @@ module.exports = function (pool) {
         insertWaiter,
         resetShifts,
         clearCheck,
-        keepCheck
+        keepCheck,
+        getAllShifts
     }
 }

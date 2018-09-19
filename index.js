@@ -51,6 +51,7 @@ res.status(500);
 res.render('error', { error: err });
 }
 
+app.get('/', route.register);
 app.get('/waiters/:username', route.home);
 app.post('/waiters/:username', route.checkingDays);
 app.get('/days', route.show);
